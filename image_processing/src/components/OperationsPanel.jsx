@@ -25,6 +25,29 @@ function OpButton({ label, onClick, loading, icon }) {
   )
 }
 
+function SliderControl({ name, value, displayValue, min, max, step, onChange, onApply, busy }) {
+  return (
+    <div className={styles.sliderControl}>
+      <div className={styles.sliderHeader}>
+        <span className={styles.sliderName}>{name}</span>
+        <span className={styles.sliderVal}>{displayValue}</span>
+      </div>
+      <div className={styles.sliderFooter}>
+        <input
+          type="range"
+          min={min} max={max} step={step}
+          value={value}
+          onChange={e => onChange(Number(e.target.value))}
+          className={styles.slider}
+        />
+        <button className={styles.applyBtn} onClick={onApply} disabled={busy}>
+          {busy ? <span className={styles.mini_spinner} /> : 'Apply'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function OperationsPanel({ imageId, onResult }) {
   const [busy, setBusy] = useState(null)
   const [brightness, setBrightness] = useState(30)
@@ -59,45 +82,24 @@ export default function OperationsPanel({ imageId, onResult }) {
     <div className={styles.panel}>
 
       <Section title="Adjustments">
-        <div className={styles.sliderRow}>
-          <label className={styles.sliderLabel}>
-            Brightness
-            <span className={styles.sliderVal}>{brightness > 0 ? `+${brightness}` : brightness}</span>
-          </label>
-          <input
-            type="range" min="-100" max="100" step="5"
-            value={brightness}
-            onChange={e => setBrightness(Number(e.target.value))}
-            className={styles.slider}
-          />
-          <button
-            className={styles.applyBtn}
-            onClick={() => run('brightness', () => api.brightness(imageId, brightness))}
-            disabled={busy === 'brightness'}
-          >
-            {b('brightness') ? <span className={styles.mini_spinner} /> : 'Apply'}
-          </button>
-        </div>
-
-        <div className={styles.sliderRow}>
-          <label className={styles.sliderLabel}>
-            Contrast
-            <span className={styles.sliderVal}>{contrast.toFixed(1)}×</span>
-          </label>
-          <input
-            type="range" min="0.1" max="3" step="0.1"
-            value={contrast}
-            onChange={e => setContrast(Number(e.target.value))}
-            className={styles.slider}
-          />
-          <button
-            className={styles.applyBtn}
-            onClick={() => run('contrast', () => api.contrast(imageId, contrast))}
-            disabled={busy === 'contrast'}
-          >
-            {b('contrast') ? <span className={styles.mini_spinner} /> : 'Apply'}
-          </button>
-        </div>
+        <SliderControl
+          name="Brightness"
+          value={brightness}
+          displayValue={brightness > 0 ? `+${brightness}` : `${brightness}`}
+          min={-100} max={100} step={5}
+          onChange={setBrightness}
+          onApply={() => run('brightness', () => api.brightness(imageId, brightness))}
+          busy={b('brightness')}
+        />
+        <SliderControl
+          name="Contrast"
+          value={contrast}
+          displayValue={`${contrast.toFixed(1)}×`}
+          min={0.1} max={3} step={0.1}
+          onChange={setContrast}
+          onApply={() => run('contrast', () => api.contrast(imageId, contrast))}
+          busy={b('contrast')}
+        />
       </Section>
 
       <Section title="Filters">
@@ -127,11 +129,8 @@ export default function OperationsPanel({ imageId, onResult }) {
             icon={<FlipVIcon />} />
         </div>
 
-        <div className={styles.sliderRow} style={{ marginTop: 10 }}>
-          <label className={styles.sliderLabel}>
-            Rotate
-            <span className={styles.sliderVal}>{angle}°</span>
-          </label>
+        <div className={styles.rotateRow}>
+          <span className={styles.rotateLabel}>Rotate</span>
           <div className={styles.segmented}>
             {[90, 180, 270].map(a => (
               <button
@@ -146,51 +145,31 @@ export default function OperationsPanel({ imageId, onResult }) {
             onClick={() => run('rotate', () => api.rotate(imageId, angle))}
             disabled={b('rotate')}
           >
-            {b('rotate') ? <span className={styles.mini_spinner} /> : 'Rotate'}
+            {b('rotate') ? <span className={styles.mini_spinner} /> : 'Go'}
           </button>
         </div>
 
-        <div className={styles.sliderRow} style={{ marginTop: 10 }}>
-          <label className={styles.sliderLabel}>
-            Zoom
-            <span className={styles.sliderVal}>{zoom.toFixed(1)}×</span>
-          </label>
-          <input
-            type="range" min="0.2" max="4" step="0.1"
-            value={zoom}
-            onChange={e => setZoom(Number(e.target.value))}
-            className={styles.slider}
-          />
-          <button
-            className={styles.applyBtn}
-            onClick={() => run('zoom', () => api.zoom(imageId, zoom))}
-            disabled={b('zoom')}
-          >
-            {b('zoom') ? <span className={styles.mini_spinner} /> : 'Apply'}
-          </button>
-        </div>
+        <SliderControl
+          name="Zoom"
+          value={zoom}
+          displayValue={`${zoom.toFixed(1)}×`}
+          min={0.2} max={4} step={0.1}
+          onChange={setZoom}
+          onApply={() => run('zoom', () => api.zoom(imageId, zoom))}
+          busy={b('zoom')}
+        />
       </Section>
 
       <Section title="Background removal">
-        <div className={styles.sliderRow}>
-          <label className={styles.sliderLabel}>
-            Threshold
-            <span className={styles.sliderVal}>{bgThreshold}</span>
-          </label>
-          <input
-            type="range" min="5" max="120" step="5"
-            value={bgThreshold}
-            onChange={e => setBgThreshold(Number(e.target.value))}
-            className={styles.slider}
-          />
-          <button
-            className={styles.applyBtn}
-            onClick={() => run('remove-bg', () => api.removeBackground(imageId, bgThreshold))}
-            disabled={b('remove-bg')}
-          >
-            {b('remove-bg') ? <span className={styles.mini_spinner} /> : 'Remove'}
-          </button>
-        </div>
+        <SliderControl
+          name="Threshold"
+          value={bgThreshold}
+          displayValue={`${bgThreshold}`}
+          min={5} max={120} step={5}
+          onChange={setBgThreshold}
+          onApply={() => run('remove-bg', () => api.removeBackground(imageId, bgThreshold))}
+          busy={b('remove-bg')}
+        />
       </Section>
 
       <Section title="Detect shapes">
@@ -208,8 +187,8 @@ export default function OperationsPanel({ imageId, onResult }) {
                 <tr>
                   <th>Shape</th>
                   <th>Area</th>
-                  <th>Width</th>
-                  <th>Height</th>
+                  <th>W</th>
+                  <th>H</th>
                 </tr>
               </thead>
               <tbody>
@@ -226,7 +205,7 @@ export default function OperationsPanel({ imageId, onResult }) {
           </div>
         )}
         {shapes && shapes.length === 0 && (
-          <p className={styles.noShapes}>No shapes detected in this image.</p>
+          <p className={styles.noShapes}>No shapes detected.</p>
         )}
       </Section>
 
@@ -234,35 +213,22 @@ export default function OperationsPanel({ imageId, onResult }) {
         <div className={styles.layerGrid}>
           <div className={styles.layerField}>
             <label className={styles.fieldLabel}>Overlay image</label>
-            <input
-              ref={overlayRef}
-              type="file"
-              accept="image/*"
-              className={styles.fileInput}
-            />
+            <input ref={overlayRef} type="file" accept="image/*" className={styles.fileInput} />
           </div>
           <div className={styles.xyRow}>
             <div className={styles.layerField}>
               <label className={styles.fieldLabel}>X offset</label>
-              <input
-                type="number" value={layerX}
-                onChange={e => setLayerX(Number(e.target.value))}
-                className={styles.numInput}
-              />
+              <input type="number" value={layerX} onChange={e => setLayerX(Number(e.target.value))} className={styles.numInput} />
             </div>
             <div className={styles.layerField}>
               <label className={styles.fieldLabel}>Y offset</label>
-              <input
-                type="number" value={layerY}
-                onChange={e => setLayerY(Number(e.target.value))}
-                className={styles.numInput}
-              />
+              <input type="number" value={layerY} onChange={e => setLayerY(Number(e.target.value))} className={styles.numInput} />
             </div>
           </div>
         </div>
         <button
           className={styles.fullBtn}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: 4 }}
           onClick={() => {
             const file = overlayRef.current?.files?.[0]
             if (!file) return

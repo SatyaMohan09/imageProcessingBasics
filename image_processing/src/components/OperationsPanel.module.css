@@ -1,7 +1,7 @@
 .panel {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
 }
 
 .section {
@@ -17,18 +17,19 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--text-muted);
-  padding: 10px 14px 8px;
+  padding: 9px 14px;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
 }
 
 .sectionBody {
-  padding: 14px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
+/* ── Filter / one-click buttons ── */
 .btnGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -46,7 +47,7 @@
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 8px 12px;
+  padding: 9px 12px;
   transition: background 0.12s, border-color 0.12s;
   cursor: pointer;
 }
@@ -54,7 +55,7 @@
   background: var(--accent-subtle);
   border-color: var(--border-strong);
 }
-.opBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.opBtn:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .btnIcon {
   display: flex;
@@ -62,20 +63,22 @@
   color: var(--text-secondary);
 }
 
-.sliderRow {
+/* ── Slider controls ── */
+.sliderControl {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 7px;
 }
 
-.sliderLabel {
+.sliderHeader {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+}
+
+.sliderName {
   font-size: 13px;
   color: var(--text-secondary);
-  min-width: 90px;
-  gap: 6px;
 }
 
 .sliderVal {
@@ -83,8 +86,18 @@
   font-weight: 500;
   color: var(--text-primary);
   font-family: 'JetBrains Mono', monospace;
-  min-width: 36px;
-  text-align: right;
+  background: var(--accent-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 7px;
+  min-width: 44px;
+  text-align: center;
+}
+
+.sliderFooter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .slider {
@@ -92,27 +105,31 @@
   height: 4px;
   accent-color: var(--text-primary);
   cursor: pointer;
+  min-width: 0;
 }
 
 .applyBtn {
+  flex-shrink: 0;
   font-size: 12px;
   font-weight: 500;
   color: var(--text-primary);
   background: var(--accent-subtle);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 5px 12px;
-  min-width: 54px;
+  padding: 5px 14px;
+  min-width: 56px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   cursor: pointer;
   transition: background 0.12s;
 }
 .applyBtn:hover:not(:disabled) { background: var(--border); }
-.applyBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.applyBtn:disabled { opacity: 0.45; cursor: not-allowed; }
 
+/* ── Segmented control ── */
 .segmented {
   display: flex;
   border: 1px solid var(--border);
@@ -129,19 +146,32 @@
   background: var(--bg);
   border: none;
   border-right: 1px solid var(--border);
-  padding: 5px 0;
+  padding: 6px 0;
   cursor: pointer;
   transition: background 0.12s, color 0.12s;
 }
 .seg:last-child { border-right: none; }
-.seg:hover { background: var(--accent-subtle); }
+.seg:hover:not(.segActive) { background: var(--accent-subtle); }
 
 .segActive {
   background: var(--text-primary);
   color: var(--surface);
 }
-.segActive:hover { background: var(--text-primary); }
 
+/* ── Rotate row ── */
+.rotateRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rotateLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* ── Full-width button ── */
 .fullBtn {
   width: 100%;
   display: flex;
@@ -162,10 +192,11 @@
   background: var(--accent-subtle);
   border-color: var(--border-strong);
 }
-.fullBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.fullBtn:disabled { opacity: 0.45; cursor: not-allowed; }
 
+/* ── Shapes table ── */
 .shapesTable {
-  margin-top: 10px;
+  margin-top: 4px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
@@ -206,9 +237,10 @@
   font-size: 13px;
   color: var(--text-muted);
   text-align: center;
-  padding: 10px 0 4px;
+  padding: 6px 0 2px;
 }
 
+/* ── Layer overlay ── */
 .layerGrid {
   display: flex;
   flex-direction: column;
@@ -271,6 +303,7 @@
   border-color: var(--border-strong);
 }
 
+/* ── Spinner ── */
 .mini_spinner {
   display: inline-block;
   width: 12px;
