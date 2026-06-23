@@ -14,23 +14,17 @@ public class SharpenService {
     public void sharpen(String imagePath)
             throws IOException {
 
-        BufferedImage original =
-                ImageIO.read(new File(imagePath));
+        BufferedImage original = ImageIO.read(new File(imagePath));
 
-        int width =
-                original.getWidth();
+        int width = original.getWidth();
 
-        int height =
-                original.getHeight();
+        int height = original.getHeight();
 
-        ExtractPixels extractor =
-                new ExtractPixels();
+        ExtractPixels extractor = new ExtractPixels();
 
-        int[] sourcePixels =
-                extractor.extractPixels(original);
+        int[] sourcePixels = extractor.extractPixels(original);
 
-        int[] resultPixels =
-                new int[width * height];
+        int[] resultPixels = new int[width * height];
 
         // Preserve border pixels
         System.arraycopy(
@@ -59,32 +53,21 @@ public class SharpenService {
 
                     for (int kx = -1; kx <= 1; kx++) {
 
-                        int nx =
-                                x + kx;
+                        int nx = x + kx;
 
-                        int ny =
-                                y + ky;
+                        int ny = y + ky;
 
-                        int neighborIndex =
-                                ny * width + nx;
+                        int neighborIndex = ny * width + nx;
 
-                        int rgb =
-                                sourcePixels[neighborIndex];
+                        int rgb = sourcePixels[neighborIndex];
 
-                        int weight =
-                                kernel[ky + 1][kx + 1];
+                        int weight = kernel[ky + 1][kx + 1];
 
-                        red +=
-                                ((rgb >> 16) & 0xff)
-                                        * weight;
+                        red += ((rgb >> 16) & 0xff) * weight;
 
-                        green +=
-                                ((rgb >> 8) & 0xff)
-                                        * weight;
+                        green += ((rgb >> 8) & 0xff) * weight;
 
-                        blue +=
-                                (rgb & 0xff)
-                                        * weight;
+                        blue += (rgb & 0xff) * weight;
                     }
                 }
 
@@ -92,21 +75,17 @@ public class SharpenService {
                 green = clamp(green);
                 blue = clamp(blue);
 
-                int newRgb =
-                        (red << 16)
+                int newRgb = (red << 16)
                                 | (green << 8)
                                 | blue;
 
-                int targetIndex =
-                        y * width + x;
+                int targetIndex = y * width + x;
 
-                resultPixels[targetIndex] =
-                        newRgb;
+                resultPixels[targetIndex] = newRgb;
             }
         }
 
-        BufferedImage sharpened =
-                new BufferedImage(
+        BufferedImage sharpened = new BufferedImage(
                         width,
                         height,
                         BufferedImage.TYPE_INT_RGB
@@ -122,8 +101,7 @@ public class SharpenService {
                 width
         );
 
-        File outputFile =
-                new File(
+        File outputFile = new File(
                         new File(imagePath).getParent(),
                         "sharpen.jpg"
                 );

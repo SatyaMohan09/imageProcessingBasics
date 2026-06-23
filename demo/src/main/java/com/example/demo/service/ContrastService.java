@@ -15,8 +15,7 @@ public class ContrastService {
             String imagePath,
             double factor) throws IOException {
 
-        BufferedImage image =
-                ImageIO.read(new File(imagePath));
+        BufferedImage image = ImageIO.read(new File(imagePath));
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -32,22 +31,13 @@ public class ContrastService {
             int g = (rgb >> 8) & 0xFF;
             int b = rgb & 0xFF;
 
-            r = clamp(
-                    (int) (factor * (r - 128) + 128)
-            );
+            r = clamp((int) (factor * (r - 128) + 128));
 
-            g = clamp(
-                    (int) (factor * (g - 128) + 128)
-            );
+            g = clamp((int) (factor * (g - 128) + 128));
 
-            b = clamp(
-                    (int) (factor * (b - 128) + 128)
-            );
+            b = clamp((int) (factor * (b - 128) + 128));
 
-            pixels[i] =
-                    (r << 16) |
-                    (g << 8) |
-                    b;
+            pixels[i] = (r << 16) | (g << 8) | b;
         }
 
         BufferedImage result =
@@ -69,11 +59,9 @@ public class ContrastService {
 
         File original = new File(imagePath);
 
-        String extension =
-                getExtension(original.getName());
+        String extension = getExtension(original.getName());
 
-        String outputPath =
-                original.getParent()
+        String outputPath = original.getParent()
                         + File.separator
                         + "contrast."
                         + extension;
@@ -97,8 +85,7 @@ public class ContrastService {
 
     private String getExtension(String fileName) {
 
-        int dotIndex =
-                fileName.lastIndexOf('.');
+        int dotIndex = fileName.lastIndexOf('.');
 
         return fileName.substring(dotIndex + 1);
     }

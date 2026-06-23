@@ -52,7 +52,7 @@ export default function OperationsPanel({ imageId, onResult }) {
   const [busy, setBusy] = useState(null)
   const [brightness, setBrightness] = useState(30)
   const [contrast, setContrast] = useState(1.5)
-  const [zoom, setZoom] = useState(1.5)
+  const [zoom, setZoom] = useState(1.0)
   const [angle, setAngle] = useState(90)
   const [bgThreshold, setBgThreshold] = useState(40)
   const [layerX, setLayerX] = useState(0)
@@ -152,8 +152,8 @@ export default function OperationsPanel({ imageId, onResult }) {
         <SliderControl
           name="Zoom"
           value={zoom}
-          displayValue={`${zoom.toFixed(1)}×`}
-          min={0.2} max={4} step={0.1}
+          displayValue={zoom === 1 ? '1× (original)' : zoom < 1 ? `${zoom.toFixed(1)}× out` : `${zoom.toFixed(1)}× in`}
+          min={0.1} max={4} step={0.1}
           onChange={setZoom}
           onApply={() => run('zoom', () => api.zoom(imageId, zoom))}
           busy={b('zoom')}

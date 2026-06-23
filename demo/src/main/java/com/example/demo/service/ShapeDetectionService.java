@@ -237,14 +237,11 @@ private String classifyShape(Component component) {
 public void saveThresholdImage(String imagePath)
         throws IOException {
 
-    BufferedImage image =
-            ImageIO.read(new File(imagePath));
+    BufferedImage image = ImageIO.read(new File(imagePath));
 
-    BufferedImage binary =
-            threshold(image);
+    BufferedImage binary = threshold(image);
 
-    File outputFile =
-            new File(
+    File outputFile = new File(
                     new File(imagePath).getParent(),
                     "threshold.png");
 

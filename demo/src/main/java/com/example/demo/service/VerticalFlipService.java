@@ -14,38 +14,31 @@ public class VerticalFlipService {
     public String flip(String imagePath)
             throws IOException {
 
-        BufferedImage image =
-                ImageIO.read(new File(imagePath));
+        BufferedImage image = ImageIO.read(new File(imagePath));
 
         int width = image.getWidth();
         int height = image.getHeight();
 
-        ExtractPixels extractor =
-                new ExtractPixels();
+        ExtractPixels extractor = new ExtractPixels();
 
-        int[] sourcePixels =
-                extractor.extractPixels(image);
+        int[] sourcePixels = extractor.extractPixels(image);
 
-        int[] resultPixels =
-                new int[width * height];
+        int[] resultPixels = new int[width * height];
 
         for (int y = 0; y < height; y++) {
 
             for (int x = 0; x < width; x++) {
 
-                int sourceIndex =
-                        y * width + x;
+                int sourceIndex = y * width + x;
 
-                int targetIndex =
-                        (height - 1 - y) * width + x;
+                int targetIndex = (height - 1 - y) * width + x;
 
                 resultPixels[targetIndex] =
                         sourcePixels[sourceIndex];
             }
         }
 
-        BufferedImage result =
-                new BufferedImage(
+        BufferedImage result = new BufferedImage(
                         width,
                         height,
                         image.getType()
@@ -61,16 +54,13 @@ public class VerticalFlipService {
                 width
         );
 
-        File original =
-                new File(imagePath);
+        File original = new File(imagePath);
 
-        String extension =
-                getExtension(
+        String extension = getExtension(
                         original.getName()
                 );
 
-        String outputPath =
-                original.getParent()
+        String outputPath = original.getParent()
                         + File.separator
                         + "vertical_flip."
                         + extension;
@@ -87,8 +77,7 @@ public class VerticalFlipService {
     private String getExtension(
             String fileName) {
 
-        int dot =
-                fileName.lastIndexOf('.');
+        int dot = fileName.lastIndexOf('.');
 
         return fileName.substring(dot + 1);
     }

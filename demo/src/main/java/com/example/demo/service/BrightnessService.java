@@ -65,11 +65,9 @@ public class BrightnessService {
 
         int dotIndex = fileName.lastIndexOf('.');
 
-        String extension =
-                fileName.substring(dotIndex + 1);
+        String extension = fileName.substring(dotIndex + 1);
 
-        String outputPath =
-                original.getParent()
+        String outputPath = original.getParent()
                         + File.separator
                         + "brightness."
                         + extension;

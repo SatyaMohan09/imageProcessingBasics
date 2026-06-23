@@ -14,8 +14,7 @@ public class GrayscaleService {
     public String convertToGrayscale(String imagePath)
             throws IOException {
 
-        BufferedImage image =
-                ImageIO.read(new File(imagePath));
+        BufferedImage image = ImageIO.read(new File(imagePath));
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -32,17 +31,13 @@ public class GrayscaleService {
             int g = (rgb >> 8) & 0xFF;
             int b = rgb & 0xFF;
 
-            int gray =
-                    (int) (
+            int gray =(int) (
                             0.299 * r +
                             0.587 * g +
                             0.114 * b
                     );
 
-            pixels[i] =
-                    (gray << 16) |
-                    (gray << 8) |
-                    gray;
+            pixels[i] = (gray << 16) | (gray << 8) | gray;
         }
 
         BufferedImage grayImage =
@@ -68,11 +63,9 @@ public class GrayscaleService {
 
         int dotIndex = fileName.lastIndexOf('.');
 
-        String extension =
-                fileName.substring(dotIndex + 1);
+        String extension = fileName.substring(dotIndex + 1);
 
-        String outputPath =
-                original.getParent()
+        String outputPath = original.getParent()
                         + File.separator
                         + "grayscale."
                         + extension;

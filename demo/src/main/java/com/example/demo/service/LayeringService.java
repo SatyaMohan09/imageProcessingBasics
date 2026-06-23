@@ -19,46 +19,31 @@ public class LayeringService {
             int startY)
             throws IOException {
 
-        BufferedImage background =
-                ImageIO.read(
-                        new File(backgroundPath)
-                );
+        BufferedImage background = ImageIO.read(new File(backgroundPath));
 
-        BufferedImage overlay =
-                ImageIO.read(
-                        overlayFile.getInputStream()
-                );
+        BufferedImage overlay = ImageIO.read(overlayFile.getInputStream());
 
-        int backgroundWidth =
-                background.getWidth();
+        int backgroundWidth = background.getWidth();
 
-        int backgroundHeight =
-                background.getHeight();
+        int backgroundHeight = background.getHeight();
 
-        int overlayWidth =
-                overlay.getWidth();
+        int overlayWidth = overlay.getWidth();
 
-        int overlayHeight =
-                overlay.getHeight();
+        int overlayHeight = overlay.getHeight();
 
-        ExtractPixels extractor =
-                new ExtractPixels();
+        ExtractPixels extractor = new ExtractPixels();
 
-        int[] backgroundPixels =
-                extractor.extractPixels(background);
+        int[] backgroundPixels = extractor.extractPixels(background);
 
-        int[] overlayPixels =
-                extractor.extractPixels(overlay);
+        int[] overlayPixels = extractor.extractPixels(overlay);
 
         for (int y = 0; y < overlayHeight; y++) {
 
             for (int x = 0; x < overlayWidth; x++) {
 
-                int targetX =
-                        startX + x;
+                int targetX = startX + x;
 
-                int targetY =
-                        startY + y;
+                int targetY = startY + y;
 
                 if (targetX < 0
                         || targetX >= backgroundWidth
@@ -67,18 +52,13 @@ public class LayeringService {
                     continue;
                 }
 
-                int overlayIndex =
-                        y * overlayWidth + x;
+                int overlayIndex = y * overlayWidth + x;
 
-                int backgroundIndex =
-                        targetY * backgroundWidth
-                                + targetX;
+                int backgroundIndex = targetY * backgroundWidth + targetX;
 
-                int overlayRgb =
-                        overlayPixels[overlayIndex];
+                int overlayRgb = overlayPixels[overlayIndex];
 
-                backgroundPixels[backgroundIndex] =
-                        overlayRgb;
+                backgroundPixels[backgroundIndex] = overlayRgb;
             }
         }
 
@@ -92,10 +72,8 @@ public class LayeringService {
                 backgroundWidth
         );
 
-        File outputFile =
-                new File(
-                        new File(backgroundPath)
-                                .getParent(),
+        File outputFile = new File(
+                        new File(backgroundPath).getParent(),
                         "layered.png"
                 );
 

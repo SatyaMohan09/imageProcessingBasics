@@ -42,8 +42,7 @@ public class ImageStorageService {
             String originalFileName = file.getOriginalFilename();
 
             // Save image inside its folder
-            Path targetFile =
-                    imageFolder.resolve(originalFileName);
+            Path targetFile = imageFolder.resolve(originalFileName);
 
             Files.copy(
                     file.getInputStream(),
@@ -78,10 +77,7 @@ public class ImageStorageService {
                 .toString();
 
     } catch (IOException e) {
-        throw new RuntimeException(
-                "Failed to locate image: " + imageId,
-                e
-        );
+        throw new RuntimeException("Failed to locate image: " + imageId, e);
     }
   }
 }

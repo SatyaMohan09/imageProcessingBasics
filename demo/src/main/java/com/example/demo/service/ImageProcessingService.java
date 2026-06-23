@@ -35,23 +35,15 @@ public class ImageProcessingService {
 
             for (int x = 0; x < width; x++) {
 
-                Color pixel =
-                        new Color(image.getRGB(x, y));
+                Color pixel = new Color(image.getRGB(x, y));
 
-                int dr =
-                        pixel.getRed() - bgR;
+                int dr = pixel.getRed() - bgR;
 
-                int dg =
-                        pixel.getGreen() - bgG;
+                int dg = pixel.getGreen() - bgG;
 
-                int db =
-                        pixel.getBlue() - bgB;
+                int db = pixel.getBlue() - bgB;
 
-                double distance =
-                        Math.sqrt(
-                                dr * dr +
-                                dg * dg +
-                                db * db);
+                double distance = Math.sqrt(dr * dr + dg * dg + db * db);
 
                 if (distance < threshold) {
 
@@ -78,33 +70,19 @@ public class ImageProcessingService {
             int threshold)
             throws IOException {
 
-        BufferedImage image =
-                ImageIO.read(new File(inputPath));
+        BufferedImage image = ImageIO.read(new File(inputPath));
 
-        BufferedImage result =
-                removeBackground(
-                        image,
-                        threshold);
+        BufferedImage result = removeBackground( image, threshold);
 
-        File inputFile =
-                new File(inputPath);
+        File inputFile = new File(inputPath);
 
-        String fileName =
-                inputFile.getName();
+        String fileName = inputFile.getName();
 
-        int dotIndex =
-                fileName.lastIndexOf('.');
+        int dotIndex = fileName.lastIndexOf('.');
 
-        String baseName =
-                dotIndex > 0
-                        ? fileName.substring(0, dotIndex)
-                        : fileName;
+        String baseName = dotIndex > 0 ? fileName.substring(0, dotIndex) : fileName;
 
-        String outputPath =
-                inputFile.getParent()
-                        + File.separator
-                        + baseName
-                        + "_background_removed.png";
+        String outputPath = inputFile.getParent() + File.separator + baseName + "_background_removed.png";
 
         ImageIO.write(
                 result,

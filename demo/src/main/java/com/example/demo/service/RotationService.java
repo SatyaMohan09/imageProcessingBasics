@@ -14,8 +14,7 @@ public class RotationService {
     public String rotate(String imagePath, int angle)
             throws IOException {
 
-        BufferedImage image =
-                ImageIO.read(new File(imagePath));
+        BufferedImage image = ImageIO.read(new File(imagePath));
 
         BufferedImage result;
 
@@ -65,8 +64,7 @@ private BufferedImage rotate90(
     int width = image.getWidth();
     int height = image.getHeight();
 
-    ExtractPixels extractor =
-            new ExtractPixels();
+    ExtractPixels extractor = new ExtractPixels();
 
     int[] sourcePixels =
             extractor.extractPixels(image);
@@ -121,38 +119,30 @@ private BufferedImage rotate180(
     int width = image.getWidth();
     int height = image.getHeight();
 
-    ExtractPixels extractor =
-            new ExtractPixels();
+    ExtractPixels extractor = new ExtractPixels();
 
-    int[] sourcePixels =
-            extractor.extractPixels(image);
+    int[] sourcePixels = extractor.extractPixels(image);
 
-    int[] resultPixels =
-            new int[width * height];
+    int[] resultPixels = new int[width * height];
 
     for (int y = 0; y < height; y++) {
 
         for (int x = 0; x < width; x++) {
 
-            int sourceIndex =
-                    y * width + x;
+            int sourceIndex = y * width + x;
 
-            int newX =
-                    width - 1 - x;
+            int newX = width - 1 - x;
 
-            int newY =
-                    height - 1 - y;
+            int newY = height - 1 - y;
 
-            int targetIndex =
-                    newY * width + newX;
+            int targetIndex =  newY * width + newX;
 
             resultPixels[targetIndex] =
                     sourcePixels[sourceIndex];
         }
     }
 
-    BufferedImage result =
-            new BufferedImage(
+    BufferedImage result = new BufferedImage(
                     width,
                     height,
                     image.getType()
@@ -177,38 +167,30 @@ private BufferedImage rotate270(
     int width = image.getWidth();
     int height = image.getHeight();
 
-    ExtractPixels extractor =
-            new ExtractPixels();
+    ExtractPixels extractor = new ExtractPixels();
 
-    int[] sourcePixels =
-            extractor.extractPixels(image);
+    int[] sourcePixels = extractor.extractPixels(image);
 
-    int[] resultPixels =
-            new int[width * height];
+    int[] resultPixels = new int[width * height];
 
     for (int y = 0; y < height; y++) {
 
         for (int x = 0; x < width; x++) {
 
-            int sourceIndex =
-                    y * width + x;
+            int sourceIndex = y * width + x;
 
-            int newX =
-                    y;
+            int newX = y;
 
-            int newY =
-                    width - 1 - x;
+            int newY = width - 1 - x;
 
-            int targetIndex =
-                    newY * height + newX;
+            int targetIndex = newY * height + newX;
 
             resultPixels[targetIndex] =
                     sourcePixels[sourceIndex];
         }
     }
 
-    BufferedImage result =
-            new BufferedImage(
+    BufferedImage result = new BufferedImage(
                     height,
                     width,
                     image.getType()
@@ -230,8 +212,7 @@ private BufferedImage rotate270(
     private String getExtension(
             String fileName) {
 
-        int dot =
-                fileName.lastIndexOf('.');
+        int dot = fileName.lastIndexOf('.');
 
         return fileName.substring(dot + 1);
     }

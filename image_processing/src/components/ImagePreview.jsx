@@ -1,8 +1,14 @@
+import { useState } from 'react'
 import styles from './ImagePreview.module.css'
 import { api } from '../utils/api'
 
 export default function ImagePreview({ imageId, previewUrl, fileName, onReset }) {
   const downloadUrl = api.downloadUrl(imageId)
+  const [dims, setDims] = useState(null)
+
+  function handleLoad(e) {
+    setDims({ w: e.target.naturalWidth, h: e.target.naturalHeight })
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -43,12 +49,18 @@ export default function ImagePreview({ imageId, previewUrl, fileName, onReset })
 
       <div className={styles.canvas}>
         <div className={styles.pane}>
-          <span className={styles.paneLabel}>Current</span>
+          <span className={styles.paneLabel}>
+            Current
+            {dims && (
+              <span className={styles.dimsBadge}>{dims.w} × {dims.h}px</span>
+            )}
+          </span>
           <img
             key={previewUrl}
             src={previewUrl}
             alt="Current image"
             className={styles.img}
+            onLoad={handleLoad}
           />
         </div>
       </div>

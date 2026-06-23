@@ -22,29 +22,21 @@ public class ZoomService {
             );
         }
 
-        BufferedImage image =
-                ImageIO.read(new File(imagePath));
+        BufferedImage image = ImageIO.read(new File(imagePath));
 
-        int originalWidth =
-                image.getWidth();
+        int originalWidth = image.getWidth();
 
-        int originalHeight =
-                image.getHeight();
+        int originalHeight = image.getHeight();
 
-        int newWidth =
-                (int) (originalWidth * factor);
+        int newWidth = (int) (originalWidth * factor);
 
-        int newHeight =
-                (int) (originalHeight * factor);
+        int newHeight = (int) (originalHeight * factor);
 
-        ExtractPixels extractor =
-                new ExtractPixels();
+        ExtractPixels extractor = new ExtractPixels();
 
-        int[] sourcePixels =
-                extractor.extractPixels(image);
+        int[] sourcePixels = extractor.extractPixels(image);
 
-        int[] resultPixels =
-                new int[newWidth * newHeight];
+        int[] resultPixels = new int[newWidth * newHeight];
 
         for (int y = 0; y < newHeight; y++) {
 
@@ -66,19 +58,16 @@ public class ZoomService {
                         originalHeight - 1
                 );
 
-                int sourceIndex =
-                        sourceY * originalWidth + sourceX;
+                int sourceIndex = sourceY * originalWidth + sourceX;
 
-                int targetIndex =
-                        y * newWidth + x;
+                int targetIndex = y * newWidth + x;
 
                 resultPixels[targetIndex] =
                         sourcePixels[sourceIndex];
             }
         }
 
-        BufferedImage result =
-                new BufferedImage(
+        BufferedImage result = new BufferedImage(
                         newWidth,
                         newHeight,
                         image.getType()
@@ -94,16 +83,11 @@ public class ZoomService {
                 newWidth
         );
 
-        File original =
-                new File(imagePath);
+        File original = new File(imagePath);
 
-        String extension =
-                getExtension(
-                        original.getName()
-                );
+        String extension = getExtension(original.getName());
 
-        String outputPath =
-                original.getParent()
+        String outputPath = original.getParent()
                         + File.separator
                         + "zoom_" + factor + "."
                         + extension;

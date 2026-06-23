@@ -14,20 +14,16 @@ public class BlurService {
     public String blur(String imagePath)
             throws IOException {
 
-        BufferedImage image =
-                ImageIO.read(new File(imagePath));
+        BufferedImage image = ImageIO.read(new File(imagePath));
 
         int width = image.getWidth();
         int height = image.getHeight();
 
-        ExtractPixels extractor =
-                new ExtractPixels();
+        ExtractPixels extractor = new ExtractPixels();
 
-        int[] sourcePixels =
-                extractor.extractPixels(image);
+        int[] sourcePixels = extractor.extractPixels(image);
 
-        int[] resultPixels =
-                new int[width * height];
+        int[] resultPixels = new int[width * height];
 
         // Copy original pixels so border pixels remain unchanged
         System.arraycopy(
@@ -53,20 +49,15 @@ public class BlurService {
                         int nx = x + kx;
                         int ny = y + ky;
 
-                        int neighborIndex =
-                                ny * width + nx;
+                        int neighborIndex = ny * width + nx;
 
-                        int rgb =
-                                sourcePixels[neighborIndex];
+                        int rgb = sourcePixels[neighborIndex];
 
-                        int r =
-                                (rgb >> 16) & 0xff;
+                        int r = (rgb >> 16) & 0xff;
 
-                        int g =
-                                (rgb >> 8) & 0xff;
+                        int g = (rgb >> 8) & 0xff;
 
-                        int b =
-                                rgb & 0xff;
+                        int b = rgb & 0xff;
 
                         redSum += r;
                         greenSum += g;
@@ -78,18 +69,13 @@ public class BlurService {
                 int g = greenSum / 9;
                 int b = blueSum / 9;
 
-                int targetIndex =
-                        y * width + x;
+                int targetIndex = y * width + x;
 
-                resultPixels[targetIndex] =
-                        (r << 16) |
-                        (g << 8) |
-                        b;
+                resultPixels[targetIndex] = (r << 16) | (g << 8) | b;
             }
         }
 
-        BufferedImage result =
-                new BufferedImage(
+        BufferedImage result = new BufferedImage(
                         width,
                         height,
                         image.getType()
@@ -105,16 +91,12 @@ public class BlurService {
                 width
         );
 
-        File original =
-                new File(imagePath);
+        File original = new File(imagePath);
 
         String extension =
-                getExtension(
-                        original.getName()
-                );
+                getExtension( original.getName());
 
-        String outputPath =
-                original.getParent()
+        String outputPath = original.getParent()
                         + File.separator
                         + "blur."
                         + extension;
@@ -131,8 +113,7 @@ public class BlurService {
     private String getExtension(
             String fileName) {
 
-        int dot =
-                fileName.lastIndexOf('.');
+        int dot = fileName.lastIndexOf('.');
 
         return fileName.substring(dot + 1);
     }
